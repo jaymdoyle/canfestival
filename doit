@@ -1,0 +1,148 @@
+#!/bin/sh
+# ___build_pre in as set up in defaults.py
+# Save the original path away.
+export SB_ORIG_PATH=${PATH}
+# Directories
+SB_PREFIX="/other/rtems/bsps"
+SB_PREFIX_CLEAN=$(echo "/other/rtems/bsps" | /bin/sed -e 's/^\///')
+SB_SOURCE_DIR="/other/rtems/rsb/rtems-source-builder/rtems/sources"
+SB_BUILD_DIR="/other/rtems/rsb/rtems-source-builder/rtems/build/canfestival-3-arm-rtems4.11-1"
+# host == build, use build; host != build , host uses host and build uses build
+SB_HOST_CFLAGS="-qrtems -B/other/rtems/bsps/arm-rtems4.11/lib/ -B/other/rtems/bsps/arm-rtems4.11/stm32f4x/lib/ --specs bsp_specs -march=armv7-m -mthumb -O0 -g -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
+SB_HOST_CXXFLAGS="-qrtems -B/other/rtems/bsps/arm-rtems4.11/lib/ -B/other/rtems/bsps/arm-rtems4.11/stm32f4x/lib/ --specs bsp_specs -march=armv7-m -mthumb -O0 -g -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
+SB_HOST_LDFLAGS="-L/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}/lib"
+SB_BUILD_CFLAGS="-O2 -pipe -I/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}/include"
+SB_BUILD_CXXFLAGS="-O2 -pipe -I/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}/include"
+SB_BUILD_LDFLAGS="-L/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}/lib"
+SB_CFLAGS="${SB_BUILD_CFLAGS} "
+SB_CXXFLAGS="${SB_BUILD_CXXFLAGS} "
+SB_ARCH="x86_64"
+SB_OS="linux"
+export SB_SOURCE_DIR SB_BUILD_DIR SB_ARCH SB_OS
+export SB_HOST_CFLAGS SB_HOST_CXXFLAGS SB_HOST_LDFLAGS
+export SB_BUILD_CFLAGS SB_BUILD_CXXFLAGS SB_BUILD_LDFLAGS
+export SB_CFLAGS SB_CXXFLAGS
+# Documentation
+SB_DOC_DIR="/other/rtems/bsps/share/doc"
+export SB_DOC_DIR
+# Packages
+SB_PACKAGE_NAME="canfestival-3-arm-rtems4.11-1"
+SB_PACKAGE_BUILDNAME="canfestival-3-arm-rtems4.11-1"
+SB_PACKAGE_VERSION="3"
+SB_PACKAGE_RELEASE="1"
+export SB_PACKAGE_NAME SB_PACKAGE_VERSION SB_PACKAGE_RELEASE
+# Build directories
+export SB_PREFIX
+SB_BUILD_DIR="/other/rtems/rsb/rtems-source-builder/rtems/build/canfestival-3-arm-rtems4.11-1"
+SB_BUILD_ROOT="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/canfestival-3-arm-rtems4.11-1-root-jay.doyle"
+SB_BUILD_ROOT_BINDIR="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/canfestival-3-arm-rtems4.11-1-root-jay.doyle/${SB_PREFIX_CLEAN}/bin"
+export SB_BUILD_ROOT SB_BUILD_DIR SB_BUILD_ROOT_BINDIR
+SB_BUILD_CXC_DIR="/other/rtems/rsb/rtems-source-builder/rtems/build/canfestival-3-arm-rtems4.11-1-cxc"
+SB_BUILD_CXC_ROOT="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/canfestival-3-arm-rtems4.11-1-jay.doyle-cxc"
+SB_BUILD_CXC_ROOT_BINDIR="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/canfestival-3-arm-rtems4.11-1-jay.doyle-cxc/${SB_PREFIX_CLEAN}/bin"
+export SB_BUILD_CXC_ROOT SB_BUILD_CXC_DIR SB_BUILD_CXC_ROOT_BINDIR
+SB_TMPROOT="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival"
+SB_TMPPREFIX="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}"
+SB_TMPBINDIR="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival/${SB_PREFIX_CLEAN}/bin"
+export SB_TMPROOT SB_TMPPREFIX SB_TMPBINDIR
+SB_TMPCXCROOT="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle/4.11/net/canfestival"
+SB_TMPCXCPREFIX="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle-cxc/4.11/net/canfestival/${SB_PREFIX_CLEAN}"
+SB_TMPCXCBINDIR="/other/rtems/rsb/rtems-source-builder/rtems/build/tmp/sb-jay.doyle-cxc/4.11/net/canfestival/${SB_PREFIX_CLEAN}/bin"
+export SB_TMPCXCROOT SB_TMPCXCPREFIX SB_TMPCXCBINDIR
+# Extra path support
+SB_EXTRAPATH="/other/rtems/rsb/rtems-source-builder/source-builder"
+# The compiler flags
+
+
+export CFLAGS_FOR_TARGET
+export CXXFLAGS_FOR_TARGET
+# Set up the path. Put the CXC path first.
+if test -n "${SB_TMPBINDIR}" ; then
+ PATH="${SB_TMPBINDIR}:$PATH"
+fi
+if test -n "${SB_TMPCXCBINDIR}" ; then
+ PATH="${SB_TMPCXCBINDIR}:$PATH"
+fi
+if test -n "${SB_EXTRAPATH}" ; then
+ PATH="${SB_EXTRAPATH}:$PATH"
+fi
+PATH="/other/rtems/compiler/4.11/bin:$PATH"
+
+export PATH
+# Default environment set up.
+LANG=C
+export LANG
+unset DISPLAY || :
+umask 022
+cd "/other/rtems/rsb/rtems-source-builder/rtems/build/canfestival-3-arm-rtems4.11-1"
+echo "=> canfestival-3-arm-rtems4.11-1:"
+echo "==> %prep:"
+build_top=$(pwd)
+source_dir_canfestival="canfestival"
+cd /other/rtems/rsb/rtems-source-builder/rtems/build/canfestival-3-arm-rtems4.11-1
+/bin/rm -rf canfestival
+/bin/tar -xvvf /other/rtems/rsb/rtems-source-builder/rtems/sources/canfestival.git
+cd canfestival
+/bin/chmod -R a+rX,g-w,o-w .
+cd ${build_top}
+SB_CXC="no"
+echo "==> clean %{buildroot}: ${SB_BUILD_ROOT}"
+/bin/rm -rf ${SB_BUILD_ROOT}
+/bin/mkdir -p ${SB_BUILD_ROOT}
+echo "==> %build:"
+build_top=$(pwd)
+if test "x86_64-linux-gnu" != "arm-rtems4.11" ; then
+  if test -z "arm-rtems4.11" ; then
+    build_dir="build-xc"
+  else
+    build_dir="build-cxc"
+  fi
+else
+  build_dir="build"
+fi
+mkdir -p ${build_dir}
+cd ${build_top}/${source_dir_canfestival}
+# Host and build flags, Cross build if host and build are different and
+# Cxc build if target is deifned and also different.
+# Note, gcc is not ready to be compiled with -std=gnu99 (this needs to be checked).
+if test "x86_64-linux-gnu" != "arm-rtems4.11" ; then
+  # Cross build
+  CC=$(echo "arm-rtems4.11-gcc" | sed -e 's,-std=gnu99 ,,')
+  CXX=$(echo "arm-rtems4.11-g++" | sed -e 's,-std=gnu99 ,,')
+  CFLAGS="${SB_HOST_CFLAGS}"
+  CXXFLAGS="${SB_HOST_CXXFLAGS}"
+  LDFLAGS="${SB_HOST_LDFLAGS}"
+  # Host
+  CFLAGS_FOR_HOST="${SB_HOST_CFLAGS}"
+  CXXFLAGS_FOR_HOST="${SB_HOST_CXXFLAGS}"
+  LDFLAGS_FOR_HOST="${SB_HOST_LDFLAGS}"
+  CXXFLAGS_FOR_HOST="${SB_HOST_CFLAGS}"
+  CC_FOR_HOST=$(echo "gcc ${SB_HOST_CFLAGS}" | sed -e 's,-std=gnu99 ,,')
+  CXX_FOR_HOST=$(echo "g++ ${SB_HOST_CXXFLAGS}" | sed -e 's,-std=gnu99 ,,')
+  # Build
+  CFLAGS_FOR_BUILD="${SB_BUILD_CFLAGS}"
+  CXXFLAGS_FOR_BUILD="${SB_BUILD_CXXFLAGS}"
+  LDFLAGS_FOR_BUILD="${SB_BUILD_LDFLAGS}"
+  CXXFLAGS_FOR_BUILD="${SB_BUILD_CFLAGS}"
+  CC_FOR_BUILD=$(echo "/usr/bin/gcc ${SB_BUILD_CFLAGS}" | sed -e 's,-std=gnu99 ,,')
+  CXX_FOR_BUILD=$(echo "/usr/bin/g++ ${SB_BUILD_CXXFLAGS}" | sed -e 's,-std=gnu99 ,,')
+else
+  LDFLAGS="${SB_BUILD_LDFLAGS}"
+  CC=$(echo "/usr/bin/gcc ${SB_BUILD_CFLAGS}" | sed -e 's,-std=gnu99 ,,')
+  CXX=$(echo "/usr/bin/g++ ${SB_BUILD_CXXFLAGS}" | sed -e 's,-std=gnu99 ,,')
+  CC_FOR_BUILD=${CC}
+  CXX_FOR_BUILD=${CXX}
+fi
+export CC CXX CFLAGS CXXFLAGS LDFLAGS
+export CC_FOR_HOST CXX_FOR_HOST CFLAGS_FOR_HOST CXXFLAGS_FOR_HOST LDFLAGS_FOR_HOST
+export CC_FOR_BUILD CXX_FOR_BUILD CFLAGS_FOR_BUILD CXXFLAGS_FOR_BUILD LDFLAGS_FOR_BUILD
+./configure \
+--prefix=/other/rtems/bsps \
+--target=rtems \
+--can=rtems \
+--timers=rtems \
+--disable-dll
+make all
+echo "==> %install:"
+make install
+cd ${build_top}
